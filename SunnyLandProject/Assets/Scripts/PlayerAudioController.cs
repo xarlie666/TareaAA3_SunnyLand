@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class PlayerAudioController : MonoBehaviour
 {
+    AudioSource [] allSources;
+    AudioSource jumpsource;
+    AudioSource landsource;
+    AudioSource crouchsource;
+    AudioSource cherrycollectsource;
+    AudioSource movementsource;
     // keep track of the jumping state ... 
     bool isJumping = false;
-    // make sure to keep track of the movement as well !
-
+    bool isMoving = false;
+  
     Rigidbody2D rb; // note the "2D" prefix 
     
     // Start is called before the first frame update
     void Start()
     {
+        allSources = GetComponents<AudioSource>();
+        jumpsource = allSources[0];
+        landsource = allSources[1];
+        crouchsource = allSources[2];
+        cherrycollectsource = allSources[3];
+        movementsource = allSources[4];
 	rb = GetComponent<Rigidbody2D>();
 	// get the references to your audio sources here !        
     }
@@ -20,24 +32,27 @@ public class PlayerAudioController : MonoBehaviour
     // FixedUpdate is called whenever the physics engine updates
     void FixedUpdate()
     {
-	// Use the ridgidbody instance to find out if the fox is
-	// moving, and play the respective sound !
-	// Make sure to trigger the movement sound only when
-	// the movement begins ...
-
-	// Use a magnitude threshold of 1 to detect whether the
-	// fox is moving or not !
-	// i.e.
-	// if ( ??? > 1 && ???) {
-	//    play sound here !
-	// } else if ( ??? < 1 &&) {
-	//   stop sound here !
-	// }	
+	    float v = rb.velocity.magnitude;
+    if (v > 1 && !isMoving){
+    movementsource.Play();
+    isMoving = true;
+}
+    else if(v < 1 && isMoving){
+    movementsource.Stop();
+    isMoving = false;
+}
+    while (isJumping == true){
+        movementsource.Stop();
+    }
+//else (!isJumping){
+   // movementsource.Stop();
+    //}
     }
     
     // trigger your landing sound here !
     public void OnLanding() {
-        isJumping = false;
+        landsource.Play();
+         isJumping = false;
         print("the fox has landed");
 	// to keep things cleaner, you might want to
 	// play this sound only when the fox actually jumoed ...
@@ -45,17 +60,20 @@ public class PlayerAudioController : MonoBehaviour
 
     // trigger your crouching sound here
     public void OnCrouching() {
+        crouchsource.Play();
         print("the fox is crouching");
     }
  
     // trigger your jumping sound here !
     public void OnJump() {
-        isJumping = true;
-        print("the fox has jumped");
-    }
-
+        jumpsource.Play();
+    isJumping = true;
+      print("the fox has jumped");
+}
+   
     // trigger your cherry collection sound here !
     public void OnCherryCollect() {
+        cherrycollectsource.Play();
         print("the fox has collected a cherry");
     }
 }
