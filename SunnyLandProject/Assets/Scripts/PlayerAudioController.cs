@@ -10,6 +10,7 @@ public class PlayerAudioController : MonoBehaviour
     AudioSource crouchsource;
     AudioSource cherrycollectsource;
     AudioSource movementsource;
+    //AudioSource woodimpactsource;
     // keep track of the jumping state ... 
     bool isJumping = false;
     bool isMoving = false;
@@ -25,8 +26,9 @@ public class PlayerAudioController : MonoBehaviour
         crouchsource = allSources[2];
         cherrycollectsource = allSources[3];
         movementsource = allSources[4];
+      //  woodimpactsource = allSources[5];
 	rb = GetComponent<Rigidbody2D>();
-	// get the references to your audio sources here !        
+    
     }
 
     // FixedUpdate is called whenever the physics engine updates
@@ -51,17 +53,17 @@ public class PlayerAudioController : MonoBehaviour
     public void OnLanding() {
      
         landsource.Play();
-        //isMoving=false;
+       
          movementsource.Stop();
          isJumping = false;
         print("the fox has landed");
-	// to keep things cleaner, you might want to
-	// play this sound only when the fox actually jumoed ...
+	
     }
 
     // trigger your crouching sound here
     public void OnCrouching() {
         crouchsource.Play();
+        
         print("the fox is crouching");
     }
  
@@ -79,6 +81,8 @@ public class PlayerAudioController : MonoBehaviour
     // trigger your cherry collection sound here !
     public void OnCherryCollect() {
         cherrycollectsource.Play();
+   
         print("the fox has collected a cherry");
     }
+    //public void OnCollisionEnter2D
 }
