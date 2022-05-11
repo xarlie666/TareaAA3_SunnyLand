@@ -33,25 +33,26 @@ public class PlayerAudioController : MonoBehaviour
     void FixedUpdate()
     {
 	    float v = rb.velocity.magnitude;
-    if (v > 1 && !isMoving){
-    movementsource.Play();
-    isMoving = true;
-}
-    else if(v < 1 && isMoving){
+   
+   if(v > 1 && !isMoving && !isJumping){
+          movementsource.Play();
+        isMoving = true;
+        }
+    if(v < 1 && isMoving  && !isJumping){
     movementsource.Stop();
-    isMoving = false;
-}
-    while (isJumping == true){
-        movementsource.Stop();
-    }
-//else (!isJumping){
-   // movementsource.Stop();
-    //}
-    }
+           isMoving = false;
+        }   
+        
+   }
+   
+
     
     // trigger your landing sound here !
     public void OnLanding() {
+     
         landsource.Play();
+        //isMoving=false;
+         movementsource.Stop();
          isJumping = false;
         print("the fox has landed");
 	// to keep things cleaner, you might want to
@@ -66,10 +67,14 @@ public class PlayerAudioController : MonoBehaviour
  
     // trigger your jumping sound here !
     public void OnJump() {
+      
         jumpsource.Play();
-    isJumping = true;
+        
+       movementsource.Stop();
+       isJumping = true;
       print("the fox has jumped");
-}
+    }
+
    
     // trigger your cherry collection sound here !
     public void OnCherryCollect() {
