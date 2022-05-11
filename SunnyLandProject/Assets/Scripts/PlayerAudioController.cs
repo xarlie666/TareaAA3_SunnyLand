@@ -10,6 +10,8 @@ public class PlayerAudioController : MonoBehaviour
     AudioSource crouchsource;
     AudioSource cherrycollectsource;
     AudioSource movementsource;
+    AudioSource secondjump;
+    AudioSource secondland;
     //AudioSource woodimpactsource;
     // keep track of the jumping state ... 
     bool isJumping = false;
@@ -26,6 +28,8 @@ public class PlayerAudioController : MonoBehaviour
         crouchsource = allSources[2];
         cherrycollectsource = allSources[3];
         movementsource = allSources[4];
+        secondjump = allSources[5];
+        secondland = allSources[6];
       //  woodimpactsource = allSources[5];
 	rb = GetComponent<Rigidbody2D>();
     
@@ -51,12 +55,21 @@ public class PlayerAudioController : MonoBehaviour
     
     // trigger your landing sound here !
     public void OnLanding() {
-     
+
+     int choiceland = Random.Range(1,10);
+      if(choiceland<5)
+      {
         landsource.Play();
-       
-         movementsource.Stop();
          isJumping = false;
-        print("the fox has landed");
+         movementsource.Stop();
+      }
+      else if(choiceland>5)
+      {
+          secondland.Play();
+           isJumping = false;
+           movementsource.Stop();
+      }
+        
 	
     }
 
@@ -68,13 +81,23 @@ public class PlayerAudioController : MonoBehaviour
     }
  
     // trigger your jumping sound here !
-    public void OnJump() {
-      
+    public void OnJump() 
+    {
+      int choicejump = Random.Range(1,10);
+      if(choicejump<5)
+      {
         jumpsource.Play();
-        
-       movementsource.Stop();
-       isJumping = true;
-      print("the fox has jumped");
+         isJumping = true;
+         movementsource.Stop();
+      }
+      else if(choicejump>5)
+      {
+          secondjump.Play();
+           isJumping = true;
+           movementsource.Stop();
+      }
+       
+           //print("the fox has jumped");
     }
 
    
